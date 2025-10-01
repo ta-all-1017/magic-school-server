@@ -76,13 +76,13 @@ export class RoomService {
         const cachedRoom = await getCache(`room:${roomId}`);
         if (cachedRoom) {
           room = cachedRoom;
-          this.rooms.set(roomId, room);
+          this.rooms.set(roomId, room!);
         } else {
           return null;
         }
       }
       
-      if (room.players.size >= room.maxPlayers) {
+      if (room!.players.size >= room!.maxPlayers) {
         throw new Error('Room is full');
       }
       
@@ -106,12 +106,12 @@ export class RoomService {
         await player.save();
       }
       
-      room.players.set(playerId, player);
-      await setCache(`room:${roomId}`, room, 3600);
+      room!.players.set(playerId, player);
+      await setCache(`room:${roomId}`, room!, 3600);
       
       await this.gameService.addPlayerToGame(roomId, playerId, username, team);
       
-      return room;
+      return room!;
     } catch (error) {
       console.error('Error joining room:', error);
       throw error;
@@ -158,11 +158,11 @@ export class RoomService {
         const cachedRoom = await getCache(`room:${roomId}`);
         if (cachedRoom) {
           room = cachedRoom;
-          this.rooms.set(roomId, room);
+          this.rooms.set(roomId, room!);
         }
       }
       
-      return room || null;
+      return room ?? null;
     } catch (error) {
       console.error('Error getting room:', error);
       return null;

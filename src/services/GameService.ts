@@ -1,6 +1,5 @@
 import Game, { IGame } from '../models/Game';
-import Player, { IPlayer } from '../models/Player';
-import { GameState, PlayerAction, Card } from '../types/game.types';
+import { Card } from '../types/game.types';
 import { getCache, setCache, deleteCache } from '../config/redis';
 
 export class GameService {
@@ -15,7 +14,7 @@ export class GameService {
     return GameService.instance;
   }
   
-  async createGame(roomId: string, hostId: string, settings?: any): Promise<IGame> {
+  async createGame(roomId: string, _hostId: string, settings?: any): Promise<IGame> {
     try {
       const game = new Game({
         roomId,
